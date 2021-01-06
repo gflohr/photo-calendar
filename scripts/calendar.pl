@@ -151,11 +151,12 @@ sub create_year {
 
 	my %meta;
 	$meta{year} = $meta{title} = $meta{name} = $year;
+	$meta{type} = 'year';
 	$meta{mdays} = [@mdays];
 	++$meta{mdays}[1] if is_leap_year $year;
 	$meta{lang} = convert_locale $options{locale};
 
-	foreach my $month (0 .. 1) {
+	foreach my $month (0 .. 11) {
 
 	}
 
@@ -166,12 +167,16 @@ sub create_start {
 	my (@years) = @_;
 
 	my %meta = (
-		id => 'start',
+		name => 'start',
 		title => 'Photo Calendar',
 		location => '/index.html',
 	);
 
-	my $content = "[% USE q = Qgoda %]\n";
+	my $content = <<"EOF";
+[% USE q = Qgoda %]
+<h1>[% asset.title %]</h1>
+EOF
+
 	foreach my $year (@years) {
 		$content .= <<"EOF";
 * [% q.anchor(name = $year) %]

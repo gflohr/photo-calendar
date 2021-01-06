@@ -1,13 +1,17 @@
-  <body>
-    [% INCLUDE "partials/body/header.html" %]
-    <main role="main" class="container">
-      <div class="row">
-        <div class="col-sm-8 blog-main">
-          <qgoda-content>
-            [% asset.content %]
-            </qgoda-content>
-        </div>
-      </div>
-    </main>
-    [% INCLUDE "functions/scripts.tt" %]
-  </body>
+	<body>
+		[% INCLUDE "partials/body/header.html" %]
+		<main role="main" class="container">
+			<div class="row">
+				<div class="col-sm-8 blog-main">
+					<qgoda-content>
+						[% IF asset.type == 'year' %]
+							[% INCLUDE 'partials/body/year.html' %]
+						[% ELSE %]
+							[% asset.content %]
+						[% END %]
+					</qgoda-content>
+				</div>
+			</div>
+		</main>
+		[% INCLUDE "functions/scripts.tt" %]
+	</body>
