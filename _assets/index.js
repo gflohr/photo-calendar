@@ -1,10 +1,7 @@
-const path = require('path');
+// Bootstrap.
+require('bootstrap');
 
-module.exports = {
-	entry: './_assets/index.js',
-	mode: 'production',
-	output: {
-		path: path.resolve(__dirname, 'assets'),
-		filename: 'name.js',
-	}
-};
+require('./scss/bootstrap.scss');
+require('./scss/font-awesome.scss');
+
+require('./scss/styles.scss');

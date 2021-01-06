@@ -24,8 +24,18 @@
 	"homepage": "https://github.com/gflohr/photo-calendar#readme",
 	"devDependencies": {
 		"bootstrap": "=4.5.3",
+		"clean-webpack-plugin": "^3.0.0",
+		"css-loader": "^5.0.1",
+		"css-minimizer-webpack-plugin": "^1.1.5",
+		"file-loader": "^6.2.0",
+		"font-awesome": "^4.7.0",
 		"jquery": "^3.5.1",
+		"mini-css-extract-plugin": "^1.3.3",
 		"popper.js": "=1.16.1",
+		"postcss": "^8.2.2",
+		"sass": "^1.32.0",
+		"sass-loader": "^10.1.0",
+		"url-loader": "^4.1.1",
 		"webpack": "=5.11.1",
 		"webpack-cli": "=4.3.1"
 	}

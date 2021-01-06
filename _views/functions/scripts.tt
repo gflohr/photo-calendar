@@ -1,0 +1,6 @@
+[% USE q = Qgoda %]
+[% seen = {} %]
+[% FOREACH script IN config.scripts %]
+  [%- NEXT IF seen.$script; seen.$script = 1 %]
+  <script src="[% q.bustCache(script) | url %]" type="text/javascript"></script>
+[% END %] 

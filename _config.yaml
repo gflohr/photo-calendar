@@ -9,3 +9,8 @@ exclude:
 helpers:
   browser-sync: npm run server
   webpack: npm start
+scripts:
+  - /assets/bundle.min.js
+styles:
+  - /assets/bundle.min.css
+
