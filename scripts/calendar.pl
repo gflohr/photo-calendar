@@ -15,6 +15,7 @@ our $VERSION = '0.1.0';
 sub display_version;
 sub display_usage;
 sub usage_error;
+sub create_start;
 sub create_year;
 sub create_month;
 sub create_day;
@@ -22,6 +23,7 @@ sub cleanup;
 sub docs_dir;
 sub images_dir;
 sub is_leap_year;
+sub write_markdown;
 sub write_file;
 sub convert_locale;
 
@@ -76,6 +78,7 @@ usage_error "countrycode '$options{country}' is invalid or the module"
 	if !$dh;
 
 cleanup;
+create_start @years;
 foreach my $year (@years) {
 	create_year $dh, $year;
 }
@@ -147,7 +150,7 @@ sub create_year {
 	my $doc_path = "$docs_dir/$year.md";
 
 	my %meta;
-	$meta{year} = $year;
+	$meta{year} = $meta{title} = $meta{name} = $year;
 	$meta{mdays} = [@mdays];
 	++$meta{mdays}[1] if is_leap_year $year;
 	$meta{lang} = convert_locale $options{locale};
@@ -156,8 +159,29 @@ sub create_year {
 
 	}
 
-	my $content = Dump \%meta;
-	write_file $doc_path, $content . "---\n";
+	write_markdown $doc_path, \%meta;
+}
+
+sub create_start {
+	my (@years) = @_;
+
+	my %meta = (
+		id => 'start',
+		title => 'Photo Calendar',
+		location => '/index.html',
+	);
+
+	my $content = "[% USE q = Qgoda %]\n";
+	foreach my $year (@years) {
+		$content .= <<"EOF";
+* [% q.anchor(name = $year) %]
+EOF
+	}
+
+	my $docs_dir = docs_dir;
+	mkdir $docs_dir;
+	my $doc_path = $docs_dir . '/index.md';
+	write_markdown $doc_path, \%meta, $content;
 }
 
 sub docs_dir {
@@ -228,4 +252,13 @@ sub convert_locale {
 	$locale =~ s/[_@]/-/g;
 
 	return lc $locale;
+}
+
+sub write_markdown {
+	my ($path, $meta, $content) = @_;
+
+	$content = '' if !defined $content;
+
+	my $header = Dump $meta;
+	write_file $path, "$header---\n$content";
 }

@@ -2,3 +2,10 @@ exclude:
   - scripts/
   - /README.md
   - /LICENSE
+  - /package.json
+  - /pakage.lock.json
+  - /node_modules
+  - /webpack.config.js
+helpers:
+  browser-sync: npm run server
+  webpack: npm start

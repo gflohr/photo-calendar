@@ -1,0 +1,32 @@
+{
+	"name": "photo-calendar",
+	"version": "1.0.0",
+	"description": "Generate a photo calendar with [qgoda](https://www.qgoda.net/).  This is mostly a private project.",
+	"main": "index.js",
+	"scripts": {
+		"server": "browser-sync start --server _site --files _timestamp",
+		"prebuild": "npm install",
+		"build": "webpack --progress",
+		"prestart": "npm install",
+		"start": "webpack --progress --watch",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/gflohr/photo-calendar.git"
+	},
+	"keywords": [],
+	"author": "Guido Flohr <guido.flohr@cantanea.com> (http://www.guido.flohr.net/)",
+	"license": "WTFPL",
+	"bugs": {
+		"url": "https://github.com/gflohr/photo-calendar/issues"
+	},
+	"homepage": "https://github.com/gflohr/photo-calendar#readme",
+	"devDependencies": {
+		"bootstrap": "=4.5.3",
+		"jquery": "^3.5.1",
+		"popper.js": "=1.16.1",
+		"webpack": "=5.11.1",
+		"webpack-cli": "=4.3.1"
+	}
+}

@@ -1,3 +1,6 @@
 _site/
 /.vscode
 images/
+_timestamp
+/calendar
+/node_modules
