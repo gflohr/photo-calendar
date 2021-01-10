@@ -45,17 +45,23 @@
 	<div class="row">
 	[% WHILE mday <= asset.numdays || count % 7 != 0 %]
 		<div class="col-sm">
-			<span class="wday">
+			[% class = "" %]
+			[% IF count % 7 == 6 %]
+				[% class = " holiday" %]
+			[% ELSIF count % 7 == 5 %]
+				[% class = " saturday" %]
+			[% END %]
+			<span class="wday[% class %]">
 				[% IF mday >= 1 && mday <= asset.numdays %]
 					[% mday %]
 				[% END %]
 			</span>
 		</div>
-		[% mday = mday + 1 %]
 		[% IF mday < asset.numdays && count % 7 == 6 %]
 	</div>
 	<div class="row">
 		[% END %]
+		[% mday = mday + 1 %]
 		[% count = count + 1 %]
 	[% END %]
 	</div>
