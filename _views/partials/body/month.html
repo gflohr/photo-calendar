@@ -1,0 +1,62 @@
+[% USE q = Qgoda %]
+[% month_name = q.strftime('%B', asset.year _ '-' _ asset.month _ '-1', asset.lang) %]
+<h1>[% q.anchor(name='start') %] / [% q.anchor(name=asset.year) %] / [% asset.zmonth %]</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col-sm">
+			<span class="wday-header">
+				<button type="button" class="btn btn-primary">[% q.strftime('%a', '1989-04-17', asset.lang) %]</button>
+			</span>
+		</div>
+		<div class="col-sm">
+			<span class="wday-header">
+				<button type="button" class="btn btn-primary">[% q.strftime('%a', '1989-04-18', asset.lang) %]</button>
+			</span>
+		</div>
+		<div class="col-sm">
+			<span class="wday-header">
+				<button type="button" class="btn btn-primary">[% q.strftime('%a', '1989-04-19', asset.lang) %]</button>
+			</span>
+		</div>
+		<div class="col-sm">
+			<span class="wday-header">
+				<button type="button" class="btn btn-primary">[% q.strftime('%a', '1989-04-20', asset.lang) %]</button>
+			</span>
+		</div>
+		<div class="col-sm">
+			<span class="wday-header">
+				<button type="button" class="btn btn-primary">[% q.strftime('%a', '1989-04-21', asset.lang) %]</button>
+			</span>
+		</div>
+		<div class="col-sm">
+			<span class="wday-header">
+				<button type="button" class="btn btn-primary">[% q.strftime('%a', '1989-04-22', asset.lang) %]</button>
+			</span>
+		</div>
+		<div class="col-sm">
+			<span class="wday-header">
+				<button type="button" class="btn btn-primary">[% q.strftime('%a', '1989-04-23', asset.lang) %]</button>
+			</span>
+		</div>
+	</div>
+	[% mday = asset.month_start %]
+	[% count = 0 %]
+	<div class="row">
+	[% WHILE mday <= asset.numdays || count % 7 != 0 %]
+		<div class="col-sm">
+			<span class="wday">
+				[% IF mday >= 1 && mday <= asset.numdays %]
+					[% mday %]
+				[% END %]
+			</span>
+		</div>
+		[% mday = mday + 1 %]
+		[% IF mday < asset.numdays && count % 7 == 6 %]
+	</div>
+	<div class="row">
+		[% END %]
+		[% count = count + 1 %]
+	[% END %]
+	</div>
+</div>
