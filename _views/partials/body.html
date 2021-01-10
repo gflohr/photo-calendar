@@ -6,6 +6,8 @@
 					<qgoda-content>
 						[% IF asset.type == 'year' %]
 							[% INCLUDE 'partials/body/year.html' %]
+						[% ELSIF asset.type == 'month' %]
+							[% INCLUDE 'partials/body/month.html' %]
 						[% ELSE %]
 							[% asset.content %]
 						[% END %]

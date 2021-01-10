@@ -2,13 +2,14 @@
 
 use strict;
 
-use POSIX qw(setlocale LC_ALL);
+use POSIX qw(setlocale LC_ALL mktime);
 use Date::Holidays;
 use Getopt::Long qw(GetOptions);
 use File::Basename qw(basename dirname);
 use File::Path qw(remove_tree make_path);
 use File::Find qw(find);
 use YAML::XS;
+use I18N::Langinfo;
 
 our $VERSION = '0.1.0';
 
@@ -26,6 +27,7 @@ sub is_leap_year;
 sub write_markdown;
 sub write_file;
 sub convert_locale;
+sub month_start;
 
 Getopt::Long::Configure('bundling');
 
@@ -135,6 +137,45 @@ sub usage_error {
 	die $message . "Try '${program} --help' for more information!\n";
 }
 
+sub create_day {
+	my ($dh, $year, $month, $day) = @_;
+}
+
+sub create_month {
+	my ($dh, $year, $month) = @_;
+
+	my $zmonth = sprintf '%02u', $month + 1;
+
+	my $images_dir = images_dir;
+	my $zmonth_dir = "$images_dir/$year/$zmonth";
+
+	make_path $zmonth_dir;
+
+	my $docs_dir = docs_dir;
+	my $year_dir = "$docs_dir/$year";
+
+	make_path $year_dir;
+
+	my $doc_path = "$year_dir/$zmonth.md";
+
+	my %meta;
+	$meta{year} = $year;
+	$meta{month} = $month;
+	$meta{zmonth} = $zmonth;
+	$meta{name} = $meta{title} = "$year/$zmonth";
+	$meta{type} = 'month';
+	$meta{numdays} = $mdays[$month];
+	++$meta{num_days} if $month == 2 && is_leap_year $year;
+	$meta{month_start} = month_start $year, $month;
+	$meta{lang} = convert_locale $options{locale};
+
+	foreach my $day (1 .. $meta{num_days}) {
+		create_day $dh, $year, $month, $day;
+	}
+
+	write_markdown $doc_path, \%meta;
+}
+
 sub create_year {
 	my ($dh, $year) = @_;
 
@@ -157,7 +198,7 @@ sub create_year {
 	$meta{lang} = convert_locale $options{locale};
 
 	foreach my $month (0 .. 11) {
-
+		create_month $dh, $year, $month;
 	}
 
 	write_markdown $doc_path, \%meta;
@@ -266,4 +307,15 @@ sub write_markdown {
 
 	my $header = Dump $meta;
 	write_file $path, "$header---\n$content";
+}
+
+sub month_start {
+	my ($year, $month) = @_;
+
+	my @then = gmtime mktime 0, 0, 12, 1, $month, $year - 1900;
+	my $wday = $then[6];
+
+	my $start = -$wday + 2;
+
+	return $start > 1 ? -5 : $start;
 }
